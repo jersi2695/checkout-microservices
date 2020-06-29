@@ -1,0 +1,97 @@
+version: '3.7'
+services:
+
+
+  eureka-server:
+    image: hiberus/eureka-server:1.0.0
+    #build:
+    #  context: eureka-server
+    #  dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    restart: always
+    networks:
+      - hiberus-network
+  
+  order-service:
+    image: hiberus/order-service:1.0.0
+    #build:
+    #  context: order-service
+    #  dockerfile: Dockerfile
+    environment:
+      EUREKA-SERVER: eureka-server
+    ports:
+      - "8000:8000"
+    restart: always
+    depends_on:
+      - eureka-server
+    networks:
+      - hiberus-network
+  
+  bill-service:
+    image: hiberus/bill-service:1.0.0
+    #build:
+    #  context: bill-service
+    #  dockerfile: Dockerfile
+    environment:
+      EUREKA-SERVER: eureka-server
+    ports:
+      - "8001:8001"
+    restart: always
+    depends_on:
+      - eureka-server
+    networks:
+      - hiberus-network
+  
+  logistic-service:
+    image: hiberus/logistic-service:1.0.0
+    #build:
+    #  context: logistic-service
+    #  dockerfile: Dockerfile
+    environment:
+      EUREKA-SERVER: eureka-server
+    ports:
+      - "8002:8002"
+    restart: always
+    depends_on:
+      - eureka-server
+    networks:
+      - hiberus-network
+  
+  checkout-service:
+    image: hiberus/checkout-service:1.0.0
+    #build:
+    #  context: checkout-service
+    #  dockerfile: Dockerfile
+    environment:
+      EUREKA-SERVER: eureka-server
+    ports:
+      - "8003:8003"
+    restart: always
+    depends_on:
+      - eureka-server
+      - order-service
+      - bill-service
+      - logistic-service
+    networks:
+      - hiberus-network
+  
+  zuul-server:
+    image: hiberus/zuul-server:1.0.0
+    #build:
+    #  context: zuul-server
+    #  dockerfile: Dockerfile
+    environment:
+      EUREKA-SERVER: eureka-server
+    ports:
+      - "8090:8090"
+    restart: always
+    depends_on:
+      - eureka-server
+      - checkout-service
+    networks:
+      - hiberus-network
+  
+# Networks to be created to facilitate communication between containers
+networks:
+  hiberus-network:
