@@ -2,7 +2,7 @@
 
 ## Installation
 
-Move to the folder '/commons-service' and execute `mvn install`
+Move to the folder `/commons-service` and execute `mvn install`
 
 Then, go to the services folders and execute the follow command `mvn clean package` to create a jar and an images for the service with the help of dockerfile-maven-plugin. 
 
