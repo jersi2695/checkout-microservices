@@ -6,7 +6,7 @@ Move to the folder `/commons-service` and execute `mvn install`
 
 Then, go to the services folders and execute the follow command `mvn clean package` to create a jar and an images for the service with the help of dockerfile-maven-plugin. 
 
-After build the projects and create the images, use the file `docker-compose.yml` in the root of the repository to up the containers for the images.
+After build the projects and create the images, use the file `docker-compose.yml` in the root of the repository and execute this command `docker-compose up` to up the containers for the images.
 
 You can see the documentation for the checkout service in this url `http://localhost:8090/checkout/swagger-ui.html`
 
